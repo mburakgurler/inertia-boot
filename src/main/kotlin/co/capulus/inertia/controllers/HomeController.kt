@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.servlet.ModelAndView
 
 @Controller
-class HomeController(private val objectMapper: ObjectMapper) {
+class HomeController(private val objectMapper: ObjectMapper) : BaseController() {
 
     @GetMapping("/")
     fun welcome(request: HttpServletRequest): ModelAndView {

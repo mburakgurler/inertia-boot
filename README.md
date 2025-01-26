@@ -20,10 +20,11 @@ This demo project demonstrates the proof of concept of InertiaJS with Kotlin Spr
 - [ ] proper asset versioning as per InertiaJS protocol
 - [ ] support for Inertia Forms
 - [ ] server-side validation
-- [ ] support for Shared Data
-- [ ] proper error handling
+- [X] support for Shared Data
+- [X] proper error handling
 - [ ] Add support for Laravel Mix-style partial reloads
-- [ ] proper progress indicators
+- [X] proper progress indicators
+- [X] SSR support
 
 ### Backend
 

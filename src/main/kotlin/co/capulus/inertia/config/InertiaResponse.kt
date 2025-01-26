@@ -4,33 +4,36 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.web.servlet.ModelAndView
 
-data class InertiaResponse(
+data class InertiaResponse<T>(
     val component: String,
-    val props: Map<String, Any?>,
+    val props: T,
     val url: String? = null,
     val version: String? = null
 )
 
-fun inertia(
+fun <T> inertia(
     component: String,
-    props: Map<String, Any?> = emptyMap(),
+    props: T,
     request: HttpServletRequest,
     objectMapper: ObjectMapper
 ): ModelAndView {
-    val data = mapOf(
-        "component" to component,
-        "props" to props,
-        "url" to request.requestURI,
-        "version" to null
+    val data = InertiaResponse(
+        component = component,
+        props = props,
+        url = request.requestURI
     )
+
     val serializedData = objectMapper.writeValueAsString(data)
 
-    return ModelAndView().apply {
-        if (request.getHeader("X-Inertia") != null) {
+    return if (request.getHeader("X-Inertia") != null) {
+        ModelAndView().apply {
             view = null
-        } else {
-            viewName = "app"
+            addObject("page", serializedData)
         }
-        addObject("page", serializedData)
+    } else {
+        ModelAndView("app").apply {
+            viewName = "app"
+            addObject("page", serializedData)
+        }
     }
 }
